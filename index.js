@@ -1,7 +1,6 @@
 var app = require('express')();
 var http = require('http').Server(app);
 let io = require('socket.io')(http);
-app.use(express.logger());
 
 var lists = [];
 
