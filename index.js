@@ -1,6 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 let io = require('socket.io')(http);
+app.use(express.logger());
 
 var lists = [];
 
@@ -8,7 +9,7 @@ app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
 
-http.listen (process.env.PORT || 3000, function () {
+http.listen (process.env.PORT || 5000, function () {
 	console.log ('API app started');
 });
 
