@@ -141,7 +141,8 @@ width: 0px;
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-var socket = io('http://localhost:3000/');
+//var socket = io('http://localhost:3000/');
+var socket = io('http://chatem.herokuapp.com:3000/');
 document.querySelector('.send').addEventListener('click', ev => {
 	ev.preventDefault();
 	let text = document.querySelector('.m').value;
