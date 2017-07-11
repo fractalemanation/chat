@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chat</title>
+<style>
+#center {
+	width: 1000px;
+	margin: 20px auto;
+	text-align: center;
+}
+.lists {
+	width: 1000px;
+	height: 700px;
+	overflow: auto;
+	overflow-x: hidden;
+	margin-bottom: 10px;
+}
+.lists li {
+	list-style: none;
+	width: 950px;
+	height: auto;
+	border: 1px solid #CCC;
+	border-radius: 4px;
+	padding: 10px;
+	font: 18px sans-serif;
+	margin: 0 auto;
+	margin-bottom: 5px;
+	word-break: break-all;
+}
+.m {
+	width: 976px;
+	height: 100px;
+	padding: 5px 10px;
+	resize: none;
+	outline: none;
+	border: 2px solid #0098d0;
+	border-radius: 4px;
+	font: 18px sans-serif;
+}
+.send {
+	width: 330px;
+	height: 50px;
+	background-color: #49aeef;
+	border: 2px solid #49aeef;
+	outline: none;
+	border-radius: 4px;
+	color: white;
+	font: 22px sans-serif;
+	transition: all .2s ease-in-out;
+	cursor: pointer;
+}
+.send:hover {
+	background-color: white;
+	border: 2px solid #49aeef;
+	color: #0098d0;
+	transition: all .2s ease-in-out;
+}
+.send:active {
+	box-shadow: inset 0 0 15px #49aeef;
+	transition: all .1s ease-in-out;
+}
+.get {
+	width: 330px;
+	height: 50px;
+	background-color: #49aeef;
+	border: 2px solid #49aeef;
+	outline: none;
+	border-radius: 4px;
+	color: white;
+	font: 22px sans-serif;
+	transition: all .2s ease-in-out;
+	cursor: pointer;
+}
+.get:hover {
+	background-color: white;
+	border: 2px solid #49aeef;
+	color: #0098d0;
+	transition: all .2s ease-in-out;
+}
+.get:active {
+	box-shadow: inset 0 0 15px #49aeef;
+	transition: all .1s ease-in-out;
+}
+.clearh {
+	width: 330px;
+	height: 50px;
+	background-color: #49aeef;
+	border: 2px solid #49aeef;
+	outline: none;
+	border-radius: 4px;
+	color: white;
+	font: 22px sans-serif;
+	transition: all .2s ease-in-out;
+	cursor: pointer;
+}
+.clearh:hover {
+	background-color: white;
+	border: 2px solid #49aeef;
+	color: #0098d0;
+	transition: all .2s ease-in-out;
+}
+.clearh:active {
+	box-shadow: inset 0 0 15px #49aeef;
+	transition: all .1s ease-in-out;
+}
+body::-webkit-scrollbar-button {
+background-image:url('');
+background-repeat:no-repeat;
+width:0px;
+height:0px
+}
+body::-webkit-scrollbar-track {
+background-color:#e1e1e1
+}
+body::-webkit-scrollbar-thumb {
+-webkit-border-radius: 0px;
+border-radius: 0px;
+background-color:#6dc0c8;
+}
+body::-webkit-scrollbar-thumb:hover{
+background-color:#56999f;
+}
+body::-webkit-resizer{
+background-image:url('');
+background-repeat:no-repeat;
+width:0px;
+height:0px
+}
+body::-webkit-scrollbar{
+width: 0px;
+}
+</style>
+</head>
+<body>
+<div id="center">
+<div class="lists"><li class="clear">Список сообщений пуст!</li></div>
+<div class="form-group">
+<textarea class="m" placeholder="Сообщение" rows="3"></textarea>
+</div>
+<div class="from-group"><button class="get">История сообщений</button> <button class="send">Отправить сообщение</button> <button class="clearh">Очистить историю</button></div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io('http://localhost:3000/');
+document.querySelector('.send').addEventListener('click', ev => {
+	ev.preventDefault();
+	let text = document.querySelector('.m').value;
+	if (text > '') {
+		socket.emit('message', text);
+		document.querySelector('.m').value = '';
+	}
+	else alert('Напишите текст своего сообщения!');
+});
+document.querySelector('.get').addEventListener('click', ev => {
+	ev.preventDefault();
+	socket.emit('get');
+});
+document.querySelector('.clearh').addEventListener('click', ev => {
+	ev.preventDefault();
+	socket.emit('clear');
+});
+socket.on('new message', function (data) {
+	let li = document.createElement('li');
+	li.textContent = data;
+	li.classList.add('list');
+	document.querySelector('.lists').appendChild(li);
+	document.querySelector('.clear').remove();
+});
+</script>
+</body>
+</html>
