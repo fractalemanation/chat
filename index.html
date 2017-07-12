@@ -167,6 +167,14 @@ socket.on('new message', function (data) {
 	document.querySelector('.lists').appendChild(li);
 	document.querySelector('.clear').remove();
 });
+socket.on('gets', function (data) {
+	let li = document.createElement('li');
+	if (data.length) li.textContent = 'История сообщений: ' + data;
+	else li.textContent = 'История сообщений: пуста!'
+	li.classList.add('list');
+	document.querySelector('.lists').appendChild(li);
+	document.querySelector('.clear').remove();
+});
 </script>
 </body>
 </html>
