@@ -1,5 +1,7 @@
 var app = require('express')();
-var http = require('http').Server(app);
+//var http = require('http').Server(app);
+var fs = require( 'fs' );
+var https = require('https').createServer({key: fs.readFileSync('./test_key.key'), cert: fs.readFileSync('./test_cert.crt'), ca: fs.readFileSync('./test_ca.crt'), requestCert: false, rejectUnauthorized: false}, app);
 let io = require('socket.io')(http);
 
 var lists = [];
