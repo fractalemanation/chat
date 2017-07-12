@@ -1,8 +1,10 @@
 var app = require('express')();
 //var http = require('http').Server(app);
-var fs = require( 'fs' );
-var http = require('https').createServer({key: fs.readFileSync('./test_key.key'), cert: fs.readFileSync('./test_cert.crt'), ca: fs.readFileSync('./test_ca.crt'), requestCert: false, rejectUnauthorized: false}, app);
-let io = require('socket.io')(http);
+var fs = require('fs');
+var https = require('https');
+var options = {key: fs.readFileSync('./file.pem'), cert: fs.readFileSync('./file.crt')};
+var server = https.createServer(options, app);
+let io = require('socket.io')(server);
 
 var lists = [];
 
@@ -10,7 +12,7 @@ app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
 
-http.listen (process.env.PORT || 3000, function () {
+server.listen (process.env.PORT || 3000, function () {
 	console.log ('API app started');
 });
 
